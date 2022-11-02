@@ -1,16 +1,20 @@
 require_relative "./author.rb"
 require_relative "./magazine.rb"
 class Article
-attr_reader : title, :author, :magazine
-@@all =[]
+   
+    attr_reader :author, :magazine, :title
+    
+    @@all = []
+ 
+    def initialize(author, magazine, title)
+        @author = author
+        @magazine = magazine
+        @title = title
+        @@all << self
+    end
+    
+    def self.all
+        @@all
+    end
 
-def initialize(title, author, magazine_category)
-    @title = title
-    @author = Author.new(author)
-    @magazine = Magazine.new(magazine_name, magazine_category)
-    @@all << self
-end
-def self.all
-    @all
-end
 end

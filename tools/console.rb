@@ -1,10 +1,7 @@
 require_relative '../config/environment.rb'
-
 def reload
   load 'config/environment.rb'
 end
-
-
 ###  WRITE YOUR TEST CODE HERE ###
 magazine1 = Magazine.new("magazine1", "category1")
 magazine2 = Magazine.new("magazine2", "category2")

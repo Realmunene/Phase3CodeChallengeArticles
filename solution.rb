@@ -3,18 +3,22 @@
 require_relative "./author.rb"
 require_relative "./magazine.rb"
 class Article
-attr_reader : title, :author, :magazine
-@@all =[]
+   
+    attr_reader :author, :magazine, :title
+    
+    @@all = []
+ 
+    def initialize(author, magazine, title)
+        @author = author
+        @magazine = magazine
+        @title = title
+        @@all << self
+    end
+    
+    def self.all
+        @@all
+    end
 
-def initialize(title, author, magazine_category)
-    @title = title
-    @author = Author.new(author)
-    @magazine = Magazine.new(magazine_name, magazine_category)
-    @@all << self
-end
-def self.all
-    @all
-end
 end
 #Author class
 require_relative "./article.rb"
@@ -48,39 +52,35 @@ class Author
 
 end
 #Magazine Class
-require_relative "./article"
-class Magazine
-  attr_accessor :name, :category
-@@all = []
+require_relative './article.rb'
+
+class Magazine 
+  attr_accessor :name, :category 
+  @@all = []
+ 
   def initialize(name, category)
     @name = name
     @category = category
-    @@all<<self
-def self.all
-  @all
-end
-def contribution
-  Article.all.select do |article|
-    article.magazine.name == self.name && article.magazine.category == self.category
-  end.map do |art|
-    art.author
+    @@all << self
   end
-end
-def self.find_by_name(name)
-  self.all.find do |gazet|
-    gazet.name == name
+
+
+  def self.all
+    @@all
   end
-  end
-  def article_titles
-    Article.all.select do |article|
-      article.magazine.name == self.name && article.magazine.category == self.category
-    end.map do |article|
-      article.title
-    end
+
+  def articles
+    Article.all.filter {|article| article.magazine == self}
   end
 # This method should return the title of the magazines
-  def contributing_authors
-    self.contributors.filter {|author|author.articles.count > 2}
-  end 
+  def article_titles
+    self.articles.map {|article| article.title}
+  end
 # This method returns an array of authors with more than 2 magazine
+  def contributors
+    self.articles.map {|article| article.author}.uniq
+  end
+  def self.find_by_name(name)
+    self.all.find {|magazine| magazine.name == name}
+  end
 end
